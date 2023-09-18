@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback } from 'react';
-import { StyleSheet, Pressable, Text, View,Switch, TextInput, Image, ImageBackground } from 'react-native';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-
-SplashScreen.preventAutoHideAsync();
+import { StyleSheet, Pressable, Text, View,Switch, TextInput, Image, ImageBackground } from 'react-native'; 
 
 import imagem1 from './assets/fundohomem.png'
 import imagem2 from './assets/fundomulher.png'
 
 export default function App() {
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
 
   const [altura, setAltura] = useState('');
   const [sexo, setSexo] = useState(false);
@@ -39,37 +28,35 @@ export default function App() {
       <ImageBackground source={!sexo ? imagem1 : imagem2} resizeMode="cover" style={{width: '100%', height: "100%"}}>
       <View style={styles.content}>
         <View style={styles.vidro}>
-        <Text style={styles.title}>Peso ideal</Text>
-        <Text>Altura</Text>
+        <Text style={styles.titulo}>PESO IDEAL</Text>
+        <Text style={styles.titulosegundo}>ALTURA</Text>
         <View>
           <TextInput
           value={altura}
           onChangeText={setAltura}
-          style={styles.input}
+          style={styles.caixa}
+          placeholder='Insira a altura'
+          keyboardType='numeric'
           />
         </View>
-        <Text>Sexo</Text>
+        <Text style={styles.titulosegundo}>Sexo</Text>
         <View style={{display: "flex", flexDirection: "row",  alignItems: "center", justifyContent: "center"}}>
-          <Text>Homem</Text>
+          <Text style={styles.homem}>HOMEM</Text>
           <Switch
-                trackColor={{ false: '#b1deef', true: '#b1deef' }}
-                thumbColor={sexo ? '#298DC7' : '#298DC7'}
-                ios_backgroundColor="#298DC7"
                 onValueChange={setSexo}
                 value={sexo}
           />
-          <Text>Mulher</Text>
+          <Text style={styles.mulher}>MULHER</Text>
         </View>
         <Pressable
-          style={{width: '25%', backgroundColor: "#000"}}
           onPress={() => calcular(altura,sexo,peso,imagem)}
         >
-          <Text style={{color: "#fff"}}>
-            calcular
+          <Text style={styles.botao}>
+            CALCULAR
           </Text>
         </Pressable>
 
-        <View><Text>{`${peso}`}</Text></View>
+        <View style={styles.espaco}><Text style={styles.resul}>{`${peso}`}</Text></View>
         <StatusBar style="auto" />
         </View>
       </View>
@@ -80,24 +67,72 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:'center',
-    justifyContent: 'center',
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItens: 'center',
+    paddingTop:100,
     alignSelf:'center',
     marginTop:20
   },
- 
-  title: {
-    
+  espaco:{
+    paddingTop:10,
+  },
+  caixa:{
+    borderWidth:1,
+    paddingStart:15,
+    borderRadius:20,
+    borderColor:'purple',
+  },
+  resul:{
+    borderWidth:2,
+    borderRadius:10,
+    paddingTop:2,
+    width:70,
+    width:50,
+    alignItems:"center",
+    justifyContent:"center",
+    alignSelf:"center",
+    textAlign:"center",
+    fontWeight: "bold",
+    backgroundColor:"#FDE0FF",
+    color:"purple",
+    borderColor:"purple",
+  },
+  titulo: {
     fontWeight: "bold",
     textAlign: 'center',
     alignSelf: 'center',
     fontSize: 35,
-    color: '#fff',
+    fontStyle:"italic",
+    color:"purple",
+  },
+  titulosegundo:{
+    fontWeight: "bold",
+    paddingStart:15,
+    paddingTop:10,
+    fontSize:20,
+    color:"purple",
+  },
+  homem:{
+    color:'blue',
+    fontWeight: "bold",
+  },
+  mulher:{
+    color:'#FF0A99',
+    fontWeight: "bold",
+  },
+  botao:{
+    fontWeight:"bold",
+    borderWidth:1,
+    borderColor:"purple",
+    borderRadius:10,
+    alignItems:"center",
+    justifyContent:"center",
+    alignSelf:"center",
+    textAlign:"center",
+    padding:15,
+    backgroundColor:"#FDE0FF",
+    color:"purple",
   },
   texto: {
     textAlign: 'justify',
@@ -116,7 +151,8 @@ const styles = StyleSheet.create({
   },
   vidro:{
     backgroundColor:"rgba(0, 0, 0, 0.200)",
-    width:320,
-    height:250,
+    width:340,
+    height:300,
+    borderRadius:30,
   }
 });
